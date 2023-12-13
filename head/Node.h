@@ -202,4 +202,38 @@ public:
         }
         return *current;
     }
+    // Получение размера списка
+    int getSize() const {
+        return size;
+    }
+
+    // Очистка списка
+    void clear() {
+        if (head == nullptr) {
+            return;
+        }
+
+        Node<T>* current = head;
+        while (current->next != head) {
+            Node<T>* temp = current;
+            current = current->next;
+            delete temp;
+        }
+        delete current;
+        head = nullptr;
+        size = 0;
+    }
+
+    // Вычисление значения многочлена при заданном значении x
+    T evaluate(T x) const {
+        T result = 0;
+        Node<T>* current = head;
+        if (current != nullptr) {
+            do {
+                result += current->coefficient * pow(x, current->degree);
+                current = current->next;
+            } while (current != head);
+        }
+        return result;
+    }
 };
