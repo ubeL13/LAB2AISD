@@ -30,4 +30,22 @@ public:
         }
     }
 
-    
+    // Деструктор
+    ~LinkedList() {
+        clear();
+    }
+
+    // Операция присваивания
+    LinkedList<T>& operator=(const LinkedList<T>& other) {
+        if (this == &other) return *this;
+
+        clear();
+        Node<T>* current = other.head;
+        while (current != nullptr) {
+            push_tail(current->coefficient, current->degree);
+            current = current->next;
+        }
+        return *this;
+    }
+
+};
