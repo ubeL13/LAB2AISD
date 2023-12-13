@@ -48,4 +48,158 @@ public:
         return *this;
     }
 
+    // Добавление элемента в конец списка
+    void push_tail(const T& coeff, int deg) {
+        Node<T>* newNode = new Node<T>(coeff, deg);
+        if (head == nullptr) {
+            head = newNode;
+            head->next = head;
+        }
+        else {
+            Node<T>* current = head;
+            while (current->next != head) {
+                current = current->next;
+            }
+            current->next = newNode;
+            newNode->next = head;
+        }
+        size++;
+    }
+
+    // Добавление другого списка в конец списка
+    void push_tail(const LinkedList<T>& other) {
+        Node<T>* current = other.head;
+        while (current != nullptr) {
+            push_tail(current->coefficient, current->degree);
+            current = current->next;
+        }
+    }
+
+    // Добавление элемента в начало списка
+    void push_head(const T& coeff, int deg) {
+        Node<T>* newNode = new Node<T>(coeff, deg);
+        if (head == nullptr) {
+            head = newNode;
+            head->next = head;
+        }
+        else {
+            Node<T>* current = head;
+            while (current->next != head) {
+                current = current->next;
+            }
+            current->next = newNode;
+            newNode->next = head;
+            head = newNode;
+        }
+        size++;
+    }
+
+    // Добавление списка в начало списка
+    void push_head(const LinkedList<T>& other) {
+        Node<T>* current = other.head;
+        while (current != nullptr) {
+            push_head(current->coefficient, current->degree);
+            current = current->next;
+        }
+    }
+
+    // Удаление элемента из начала списка
+    void pop_head() {
+        if (head == nullptr) {
+            return;
+        }
+        else if (head->next == head) {
+            delete head;
+            head = nullptr;
+        }
+        else {
+            Node<T>* current = head;
+            while (current->next != head) {
+                current = current->next;
+            }
+            Node<T>* temp = head;
+            head = head->next;
+            current->next = head;
+            delete temp;
+        }
+        size--;
+    }
+
+    // Удаление элемента из конца списка
+    void pop_tail() {
+        if (head == nullptr) {
+            return;
+        }
+        else if (head->next == head) {
+            delete head;
+            head = nullptr;
+        }
+        else {
+            Node<T>* current = head;
+            while (current->next->next != head) {
+                current = current->next;
+            }
+            Node<T>* temp = current->next;
+            current->next = head;
+            delete temp;
+        }
+        size--;
+    }
+
+    // Удаление всех элементов Node с информационным полем, равным переданному
+    void delete_node(const T& coeff) {
+        if (head == nullptr) {
+            return;
+        }
+
+        Node<T>* current = head;
+        Node<T>* prev = nullptr;
+        do {
+            if (current->coefficient == coeff) {
+                Node<T>* temp = current;
+                if (current == head) {
+                    head = current->next;
+                    if (head == current) {
+                        head = nullptr;
+                    }
+                }
+                if (prev != nullptr) {
+                    prev->next = current->next;
+                }
+                current = current->next;
+                delete temp;
+                size--;
+            }
+            else {
+                prev = current;
+                current = current->next;
+            }
+        } while (current != head);
+    }
+
+    // Операция доступа по индексу для чтения
+    const Node<T>& operator[](int index) const {
+        if (index < 0 || index >= size) {
+            throw std::out_of_range("Index out of range");
+        }
+
+        Node<T>* current = head;
+        for (int i = 0; i < index; i++) {
+            current = current->next;
+        }
+        return *current;
+    }
+
+    // Операция доступа по индексу для записи
+    Node<T>& operator[](int index) {
+        if (index < 0 || index >= size) {
+            throw std::out_of_range("Index out of range");
+        }
+
+        Node<T>* current = head;
+        for (int i = 0; i < index; i++) {
+            current = current->next;
+        }
+        return *current;
+    }
 };
