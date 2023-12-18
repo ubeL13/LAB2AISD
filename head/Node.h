@@ -237,3 +237,14 @@ public:
         return result;
     }
 };
+//создала оператор вывода чтобы видеть чо деоается с массивом:)
+template <typename T>
+std::ostream& operator<<(std::ostream& out, const LinkedList<T>& list) {
+    out << "List size: " << list.getSize() << std::endl;
+    out << "List content: ";
+    for (int i = 0; i < list.getSize(); i++) {
+        out << "(" << list[i].coefficient << ", " << list[i].degree << ") ";
+    }
+    out << std::endl;
+    return out;
+}
